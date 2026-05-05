@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chirayu Borse | Offensive Security & VAPT</title>
+  <meta name="description" content="Portfolio of Chirayu Borse - VAPT Analyst, Penetration Tester & Security Automation Engineer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #060609;
+      --bg-secondary: #0c0c11;
+      --bg-card: #111118;
+      --bg-card-hover: #161620;
+      --text-primary: #e6e6eb;
+      --text-secondary: #9a9aa8;
+      --text-muted: #6b6b7a;
+      --accent: #8a2be2;
+      --accent-light: #b388ff;
+      --accent-glow: rgba(138, 43, 226, 0.4);
+      --cyan: #00e5ff;
+      --border: #22222c;
+      --border-hover: #3a3a4a;
+      --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --shadow-card: 0 6px 24px rgba(0,0,0,0.5);
+      --shadow-glow: 0 0 30px var(--accent-glow);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Hacker Background Layers */
+    #ascii-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      pointer-events: none;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: 
+        linear-gradient(rgba(10, 10, 15, 0) 50%, rgba(0, 0, 0, 0.18) 50%),
+        linear-gradient(90deg, rgba(138, 43, 226, 0.03), rgba(0, 229, 255, 0.02), rgba(138, 43, 226, 0.03));
+      background-size: 100% 3px, 4px 100%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.3;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 20%, rgba(138, 43, 226, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(0, 229, 255, 0.08) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* Layout */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 100px 0; position: relative; }
+
+    /* Navigation */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(6, 6, 9, 0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0; transition: var(--transition);
+    }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+    .logo {
+      font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem;
+      color: var(--accent-light); text-decoration: none; letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; transition: var(--transition); position: relative;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px; background: var(--accent); transition: var(--transition);
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Typography & Utilities */
+    h1, h2, h3 { font-weight: 700; line-height: 1.2; }
+    h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: -1.5px; }
+    h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 48px; position: relative; display: inline-block; }
+    h2::after {
+      content: ''; position: absolute; bottom: -12px; left: 0;
+      width: 60px; height: 3px; background: var(--accent); border-radius: 2px;
+    }
+    p { color: var(--text-secondary); margin-bottom: 16px; }
+    .mono { font-family: var(--font-mono); }
+    .accent { color: var(--accent-light); }
+    .tag {
+      display: inline-block; padding: 6px 12px;
+      background: rgba(138, 43, 226, 0.1); border: 1px solid var(--border);
+      border-radius: 6px; font-size: 0.8rem; font-family: var(--font-mono);
+      color: var(--accent-light); margin: 4px; transition: var(--transition);
+    }
+    .tag:hover { background: rgba(138, 43, 226, 0.2); border-color: var(--accent); transform: translateY(-2px); }
+    .badge-inprocess {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 20px;
+      font-size: 0.75rem; font-family: var(--font-mono); color: var(--cyan);
+    }
+    .badge-inprocess::before {
+      content: ''; width: 6px; height: 6px; background: var(--cyan);
+      border-radius: 50%; animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: transparent; border: 1px solid var(--accent);
+      color: var(--accent-light); font-family: var(--font-mono); font-weight: 500;
+      font-size: 0.95rem; border-radius: 8px; cursor: pointer; text-decoration: none;
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .btn:hover { background: var(--accent); color: #fff; box-shadow: var(--shadow-glow); transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-light); border-color: var(--accent-light); }
+
+    /* Hero */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; }
+    .hero-content { max-width: 800px; }
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-secondary);
+      margin: 24px 0 40px; max-width: 650px;
+      border-left: 3px solid var(--accent); padding-left: 16px;
+    }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+    .terminal-cursor {
+      display: inline-block; width: 10px; height: 1.2em; background: var(--accent);
+      margin-left: 4px; animation: blink 1s step-end infinite; vertical-align: middle;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Cards & Grid */
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 28px; transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .card:hover { border-color: var(--border-hover); background: var(--bg-card-hover); transform: translateY(-4px); box-shadow: var(--shadow-card); }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: var(--transition);
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* Skills */
+    .skill-category h3 { font-family: var(--font-mono); color: var(--text-primary); margin-bottom: 16px; font-size: 1.1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* Experience Timeline */
+    .timeline { position: relative; padding-left: 32px; border-left: 2px solid var(--border); }
+    .timeline-item { position: relative; margin-bottom: 48px; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -39px; top: 6px;
+      width: 12px; height: 12px; background: var(--bg-primary); border: 2px solid var(--accent);
+      border-radius: 50%; transition: var(--transition);
+    }
+    .timeline-item:hover::before { background: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+    .timeline-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .timeline-role { font-size: 1.25rem; font-weight: 600; color: var(--text-primary); }
+    .timeline-company { color: var(--accent-light); font-family: var(--font-mono); }
+    .timeline-date { color: var(--text-muted); font-size: 0.85rem; font-family: var(--font-mono); }
+    .timeline-bullets { list-style: none; padding-left: 0; }
+    .timeline-bullets li {
+      position: relative; padding-left: 20px; margin-bottom: 10px;
+      color: var(--text-secondary); font-size: 0.95rem;
+    }
+    .timeline-bullets li::before {
+      content: '>'; position: absolute; left: 0; color: var(--accent);
+      font-family: var(--font-mono); font-weight: bold;
+    }
+
+    /* Projects */
+    .project-card h3 { color: var(--text-primary); margin-bottom: 8px; }
+    .project-metrics { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+    .metric {
+      background: rgba(138, 43, 226, 0.08); padding: 8px 12px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-light);
+      border: 1px solid var(--border);
+    }
+    .section-divider {
+      margin: 60px 0 40px; padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border);
+      font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem;
+    }
+
+    /* Education & Certs */
+    .edu-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .edu-item:last-child { border-bottom: none; }
+    .edu-degree { font-weight: 600; color: var(--text-primary); }
+    .edu-school { color: var(--text-secondary); font-size: 0.95rem; }
+    .edu-year { font-family: var(--font-mono); color: var(--accent-light); }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 32px; }
+    .contact-card { text-align: center; padding: 28px 20px; }
+    .contact-icon { font-size: 1.8rem; margin-bottom: 12px; color: var(--accent-light); }
+    .contact-link { color: var(--text-primary); text-decoration: none; font-weight: 500; transition: var(--transition); word-break: break-all; }
+    .contact-link:hover { color: var(--accent-light); }
+    .copy-btn {
+      background: none; border: none; color: var(--text-muted); cursor: pointer;
+      font-size: 0.8rem; margin-top: 6px; font-family: var(--font-mono);
+    }
+    .copy-btn:hover { color: var(--accent-light); }
+
+    /* Footer */
+    footer { padding: 40px 0; text-align: center; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; }
+
+    /* Animations */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      section { padding: 70px 0; }
+      .timeline-header { flex-direction: column; gap: 4px; }
+      .hero-cta { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="ascii-bg"></canvas>
+
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="logo">&lt;Kraven /&gt;</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section id="hero">
+      <div class="container hero-content fade-up">
+        <p class="mono accent" style="margin-bottom: 12px;">// Offensive Security & VAPT</p>
+        <h1>Chirayu Borse</h1>
+        <p class="mono accent" style="font-size: 0.85rem; margin-top: -12px; margin-bottom: 20px; opacity: 0.7;">// a.k.a. Kraven</p>
+        <p class="hero-tagline">
+          I hunt for human errors and bugs, but not the creepy-crawly ones. I’m talking about digital bugs that mess up websites and apps.<span class="terminal-cursor"></span>
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">View My Work</a>
+          <a href="#contact" class="btn">Get In Touch</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container fade-up">
+        <h2>About Me</h2>
+        <p>
+          Security Analyst with 4+ years of combined experience, including VAPT and offensive security along with 2.3 years in industrial automation (PLC systems engineering). I specialize in bridging deterministic logic with offensive security workflows to deliver high-fidelity, exploit-validated findings.
+        </p>
+        <p>
+          My background spans from engineering fault-tolerant PLC systems to leading VAPT automation frameworks that cut manual testing effort by 40% while maintaining an 85%+ true-positive rate. I thrive in time-critical environments, applying structured risk prioritization (CVSS v3.1, MITRE ATT&CK) to turn vulnerabilities into actionable remediation roadmaps.
+        </p>
+        <p class="mono" style="margin-top: 24px; color: var(--accent-light);">
+          CEHv13 Certified | Web Application Security | Penetration Testing | OWASP Top 10 | API Security 
+        </p>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container fade-up">
+        <h2>Technical Arsenal</h2>
+        <div class="grid-3">
+          <div class="card skill-category">
+            <h3>Penetration Testing Tools</h3>
+            <div class="skill-tags">
+              <span class="tag">Burp Suite</span><span class="tag">Nmap</span><span class="tag">Metasploit</span>
+              <span class="tag">SQLMap</span><span class="tag">Hydra</span><span class="tag">Custom Python Tools</span>
+              <span class="tag">Nessus</span><span class="tag">OWASP ZAP</span>
+            </div>
+          </div>
+          <div class="card skill-category">
+            <h3>Web Security Areas</h3>
+            <div class="skill-tags">
+              <span class="tag">Injection Vulnerabilities</span><span class="tag">Broken Authentication</span>
+              <span class="tag">Access Control Flaws</span><span class="tag">Web LLM Attacks</span>
+              <span class="tag">API Security</span><span class="tag">Linux Privilege Escalation</span>
+              <span class="tag">JWT Manipulation</span><span class="tag">REST API Testing</span>
+            </div>
+          </div>
+          <div class="card skill-category">
+            <h3>Hardware & Wireless</h3>
+            <div class="skill-tags">
+              <span class="tag">ESP32 / ESP8266</span>
+              <span class="tag">PLC Ladder Logic</span>
+              <span class="tag">I/O Mapping & Baselines</span>
+              <span class="tag">Deauth Attacks (Theorotical)</span><span class="tag">Evil Twin AP (Theorotical)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container fade-up">
+        <h2>Work Experience</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <div><div class="timeline-role">Security Analyst Intern (VAPT)</div><div class="timeline-company">CyArt | Remote</div></div>
+              <div class="timeline-date">Sep 2025 – Present</div>
+            </div>
+            <ul class="timeline-bullets">
+              <li>Lead a team of 11 interns in developing a modular VAPT automation framework; own agent design for recon, credential security, and session integrity testing.</li>
+              <li>Engineered 5+ rule-based security agents that reduced manual testing effort by 40% across 5 lab environments while sustaining 85%+ true-positive detection.</li>
+              <li>Implemented validation layers to reduce false positives by 35%; delivered structured reports with CVSS-scored remediation guidance via Jira.</li>
+              <li>Expanding framework to exploitation-phase agents and central orchestration; integrating with GitHub Actions for CI/CD security gates.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <div><div class="timeline-role">Automation Engineer (Freelance)</div><div class="timeline-company">Independent | Nashik</div></div>
+              <div class="timeline-date">Dec 2024 – Present</div>
+            </div>
+            <ul class="timeline-bullets">
+              <li>Developed PLC-based conveyor automation for automobile manufacturing with sensor integration and production sequencing.</li>
+              <li>Built precision paper-cutting automation for India Security Press (bonds/cheque processing) and stepper motor-controlled lab treadmills for behavioral research.</li>
+              <li>Programmed AHU automation systems for controlled laboratory environments (temperature, airflow, alarm monitoring).</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <div><div class="timeline-role">PLC Programmer</div><div class="timeline-company">Rhythmsoft Robotics & Automation | Nashik</div></div>
+              <div class="timeline-date">Jul 2024 – Dec 2024</div>
+            </div>
+            <ul class="timeline-bullets">
+              <li>Programmed and commissioned PLC systems for assembly lines, coil machines, and welding automation.</li>
+              <li>Established PLC communication with KUKA industrial robots for aluminium tank welding projects.</li>
+              <li>Developed machine logic, safety interlocks, and fault diagnostics improving operational reliability.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <div><div class="timeline-role">Project Engineer</div><div class="timeline-company">HBS Automation Systems | Nashik</div></div>
+              <div class="timeline-date">Sep 2022 – Jul 2024</div>
+            </div>
+            <ul class="timeline-bullets">
+              <li>Developed PLC/HMI solutions for water treatment plants, ETP systems, and scientific research equipment.</li>
+              <li>Contributed to pick-and-place assembly line automation and multi-axis stepper motor coil winding systems for railway engines.</li>
+              <li>Documented I/O mappings, configuration baselines, and commissioning reports for audit compliance.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-header">
+              <div><div class="timeline-role">VAPT Analyst</div><div class="timeline-company">DigitDefence | Bangalore</div></div>
+              <div class="timeline-date">Feb 2025 – Apr 2025</div>
+            </div>
+            <ul class="timeline-bullets">
+              <li>Executed vulnerability scans, prioritized findings via CVSS scoring, and delivered stakeholder-ready remediation reports.</li>
+              <li>Identified 20+ vulnerabilities including RCE (CVE-2012-1823) across DVWA/Metasploitable labs; prioritized 10 critical/high findings.</li>
+              <li>Simulated full attack lifecycle (privilege escalation, ARP spoofing/MITM); reduced mean-time-to-remediate by 25% in lab environments.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container fade-up">
+        <h2>Projects & Research</h2>
+        
+        <div class="section-divider">// Cybersecurity & VAPT</div>
+        <div class="grid-3">
+          <div class="card project-card">
+            <h3>VAPT Automation Framework</h3>
+            <p>Architected a modular, rule-based security testing framework with custom agents for endpoint discovery, credential encryption validation, stuffing detection, and XSS scanning.</p>
+            <div class="project-metrics">
+              <span class="metric">-40% Manual Effort</span><span class="metric">85%+ True Positive</span><span class="metric">-35% False Positives</span>
+            </div>
+          </div>
+          <div class="card project-card">
+            <h3>Attack Lifecycle Simulation</h3>
+            <p>Designed and executed full-chain attack simulations across isolated lab environments, covering initial access, privilege escalation, lateral movement, and data exfiltration paths.</p>
+            <div class="project-metrics">
+              <span class="metric">20+ Vulns Identified</span><span class="metric">CVSS v3.1 Prioritized</span><span class="metric">-25% MTTR</span>
+            </div>
+          </div>
+          <div class="card project-card">
+            <h3>Industrial PLC Security & Audit Compliance</h3>
+            <p>Translated deterministic control logic and I/O baseline documentation into security-ready asset inventory models. Applied fault-tolerant design principles to secure OT workflows.</p>
+            <div class="project-metrics">
+              <span class="metric">Zero Downtime</span><span class="metric">3 Client Deployments</span><span class="metric">Audit Ready</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider">// Security Automation Agents <span class="badge-inprocess">IN PROCESS</span></div>
+        <div class="grid-3">
+          <div class="card project-card">
+            <h3>Default Credential Detector <span class="badge-inprocess">IN PROCESS</span></h3>
+            <p>Playwright-driven crawler with 50+ login endpoint patterns, strict success verification (zero false positives), and technology-specific credential mapping. Auto-saves JSON reports.</p>
+            <div class="project-metrics"><span class="metric">v2.0.0</span><span class="metric">Flask UI</span><span class="metric">Strict Verifier</span></div>
+          </div>
+          <div class="card project-card">
+            <h3>Credential Stuffing Detector <span class="badge-inprocess">IN PROCESS</span></h3>
+            <p>Ethical defense assessment tool using synthetic invalid credentials. Detects rate limiting, account lockout, CAPTCHA injection, and adaptive throttling with OWASP-compliant safeguards.</p>
+            <div class="project-metrics"><span class="metric">v2.1.0</span><span class="metric">Defense Scoring</span><span class="metric">Ethical Mode</span></div>
+          </div>
+          <div class="card project-card">
+            <h3>Sensitive File Detector (CyTrack) <span class="badge-inprocess">IN PROCESS</span></h3>
+            <p>Enterprise-grade scanner with auto-Tor routing, TruffleHog regex secret scanning, Shannon entropy analysis, and deep DOM rendering. Features real-time WebSocket console.</p>
+            <div class="project-metrics"><span class="metric">v2.1.0</span><span class="metric">FastAPI</span><span class="metric">Tor Integration</span></div>
+          </div>
+          <div class="card project-card">
+            <h3>XSS Detector: Production Scanner <span class="badge-inprocess">IN PROCESS</span></h3>
+            <p>Async-first XSS engine with Aho-Corasick payload categorization, adaptive budgeting, CSP compatibility scoring, SQLite checkpointing, and Hellhound Spider v11.1 integration.</p>
+            <div class="project-metrics"><span class="metric">v1.0.0</span><span class="metric">Async Pool</span><span class="metric">Resume Scans</span></div>
+          </div>
+        </div>
+
+        <div class="section-divider">// Industrial Automation</div>
+        <div class="grid-3">
+          <div class="card project-card">
+            <h3>Automotive Conveyor & Welding Automation</h3>
+            <p>End-to-end PLC programming and commissioning for assembly lines and KUKA robotic aluminium tank welding systems with safety interlocks and diagnostic logic.</p>
+          </div>
+          <div class="card project-card">
+            <h3>Secure Printing & Research Lab Systems</h3>
+            <p>Precision paper-cutting automation for India Security Press. Stepper motor-controlled treadmills for rodent behavioral testing and AHU environmental control systems.</p>
+          </div>
+          <div class="card project-card">
+            <h3>Water Treatment & Railway Coil Winding</h3>
+            <p>PLC/HMI integration for ETP/water treatment plants. Multi-axis stepper motor coil winding systems engineered for railway engine manufacturing applications.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="container fade-up">
+        <h2>Education & Certifications</h2>
+        <div class="card" style="padding: 32px;">
+          <div class="edu-item">
+            <div><div class="edu-degree">BE in Electronics & Telecommunication</div><div class="edu-school">Pune University, Pune</div></div>
+            <div class="edu-year">2025</div>
+          </div>
+          <div class="edu-item">
+            <div><div class="edu-degree">Diploma in Electronics & Telecommunication</div><div class="edu-school">Government Polytechnic, Nashik</div></div>
+            <div class="edu-year">2022</div>
+          </div>
+          <div class="edu-item">
+            <div><div class="edu-degree">CEHv13 - Certified Ethical Hacker</div><div class="edu-school">EC-Council</div></div>
+            <div class="edu-year">2025</div>
+          </div>
+          <div class="edu-item">
+            <div><div class="edu-degree">Industrial Automation Course</div><div class="edu-school">Edutech Automation, Nashik</div></div>
+            <div class="edu-year">2022</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container fade-up">
+        <h2>Let's Connect</h2>
+        <p>Open to VAPT, Offensive Security, and Security Automation roles. Let's discuss how I can help secure your infrastructure.</p>
+        <div class="contact-grid">
+          <div class="card contact-card">
+            <div class="contact-icon">📧</div>
+            <a href="mailto:mr.borse.chirayu@gmail.com" class="contact-link">mr.borse.chirayu@gmail.com</a>
+          </div>
+          <div class="card contact-card">
+            <div class="contact-icon">🔗</div>
+            <a href="https://linkedin.com/in/chirayuborse" target="_blank" class="contact-link">linkedin.com/in/chirayuborse</a>
+          </div>
+          <div class="card contact-card">
+            <div class="contact-icon">🐙</div>
+            <a href="https://github.com/kravenCB" target="_blank" class="contact-link">github.com/kravenCB</a>
+          </div>
+          <div class="card contact-card">
+            <div class="contact-icon">💬</div>
+            <span class="contact-link" style="cursor: default;">kraven.cb</span>
+            <button class="copy-btn" onclick="copyDiscord()">[Copy Discord]</button>
+          </div>
+          <div class="card contact-card">
+            <div class="contact-icon">📍</div>
+            <span class="contact-link" style="cursor: default;">Nashik, Maharashtra, India</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="mono">&copy; <span id="year"></span> Chirayu Borse. Engineered with precision & offensive mindset.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Dynamic Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Copy Discord
+    function copyDiscord() {
+      navigator.clipboard.writeText('kraven.cb').then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = '[Copied!]';
+        setTimeout(() => btn.textContent = '[Copy Discord]', 2000);
+      });
+    }
+
+    // ASCII Interactive Background (Enhanced Visibility & Schooling/Follow Behavior)
+    const canvas = document.getElementById('ascii-bg');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+    const chars = '0123456789ABCDEF{}[]<>/\\|;:!?@#$%&*^~'.split('');
+    const mouse = { x: -1000, y: -1000 };
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initParticles();
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.floor((width * height) / 14000);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          char: chars[Math.floor(Math.random() * chars.length)],
+          size: Math.random() * 4 + 15,
+          opacity: Math.random() * 0.35 + 0.45,
+          color: Math.random() > 0.7 ? 'cyan' : 'purple'
+        });
+      }
+    }
+
+    function animate() {
+      // Matrix-style fade trail
+      ctx.fillStyle = 'rgba(6, 6, 9, 0.18)';
+      ctx.fillRect(0, 0, width, height);
+      
+      ctx.font = '15px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      particles.forEach(p => {
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        const attractRadius = 280;
+        const personalSpace = 45;
+
+        // Schooling/Follow behavior: attract but maintain personal space
+        if (dist < attractRadius && dist > personalSpace) {
+          const force = (attractRadius - dist) / attractRadius;
+          p.vx += (dx / dist) * force * 0.35;
+          p.vy += (dy / dist) * force * 0.35;
+        } else if (dist <= personalSpace && dist > 0) {
+          // Gentle repulsion to prevent clumping
+          p.vx -= (dx / dist) * 0.6;
+          p.vy -= (dy / dist) * 0.6;
+        }
+
+        // Damping & natural drift
+        p.vx *= 0.96;
+        p.vy *= 0.96;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap around edges
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        // Random char mutation
+        if (Math.random() < 0.008) p.char = chars[Math.floor(Math.random() * chars.length)];
+
+        const baseColor = p.color === 'cyan' ? `rgba(0, 229, 255, ${p.opacity})` : `rgba(179, 136, 255, ${p.opacity})`;
+        ctx.shadowColor = baseColor;
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = baseColor;
+        ctx.fillText(p.char, p.x, p.y);
+        ctx.shadowBlur = 0;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseleave', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    });
+
+    resize();
+    animate();
+
+    // Scroll Animations
+    const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+</html>
